@@ -262,7 +262,7 @@ export async function saveCorrections(
   }
   patch["updated_at"] = new Date().toISOString();
 
-  const { error } = await supabase.from("land_record").update(patch).eq("id", record.id);
+  const { error } = await supabase.from("land_record").update(patch as never).eq("id", record.id);
   if (error) throw error;
 
   if (Object.keys(changes).length) {
@@ -271,7 +271,7 @@ export async function saveCorrections(
       survey_number: record.survey_number,
       event_type: "corrected",
       summary: `Officer corrected ${Object.keys(changes).length} field(s)`,
-      changes,
+      changes: changes as never,
       actor: "demo.officer",
     });
   }
@@ -289,7 +289,7 @@ export async function saveCorrections(
     entity: "land_record",
     entity_id: record.id,
     action: approve ? "approved" : "updated",
-    details: changes,
+    details: changes as never,
   });
 }
 
