@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, Stat, StatusBadge } from "@/components/ui-kit";
 import { getAuditLog, getDocuments, getFlags, listRecords, STATUS_LABEL } from "@/lib/land";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: "Digitization Dashboard — Bhoomi Setu" },

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, Card } from "@/components/ui-kit";
 import { runDigitizationPipeline, type PipelineResult } from "@/lib/land";
 
-export const Route = createFileRoute("/upload")({
+export const Route = createFileRoute("/_authenticated/upload")({
   head: () => ({
     meta: [
       { title: "Upload & Digitize Documents — Bhoomi Setu" },

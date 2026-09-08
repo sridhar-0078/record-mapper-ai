@@ -5,7 +5,7 @@ import { Card, StatusBadge } from "@/components/ui-kit";
 import { getOverlaps, parcelsAtPoint, STATUS_LABEL } from "@/lib/land";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/gis")({
+export const Route = createFileRoute("/_authenticated/gis")({
   head: () => ({
     meta: [
       { title: "GIS Cadastral Parcels — Bhoomi Setu" },
