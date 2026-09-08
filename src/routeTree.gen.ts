@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as QueueRouteImport } from './routes/queue'
 import { Route as UploadRouteImport } from './routes/upload'
 import { Route as RecordsIndexRouteImport } from './routes/records.index'
+import { Route as RecordsIdRouteImport } from './routes/records.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,17 +35,24 @@ const RecordsIndexRoute = RecordsIndexRouteImport.update({
   path: '/records/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecordsIdRoute = RecordsIdRouteImport.update({
+  id: '/records/$id',
+  path: '/records/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/queue': typeof QueueRoute
   '/upload': typeof UploadRoute
+  '/records/$id': typeof RecordsIdRoute
   '/records/': typeof RecordsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/queue': typeof QueueRoute
   '/upload': typeof UploadRoute
+  '/records/$id': typeof RecordsIdRoute
   '/records': typeof RecordsIndexRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/queue': typeof QueueRoute
   '/upload': typeof UploadRoute
+  '/records/$id': typeof RecordsIdRoute
   '/records/': typeof RecordsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/queue' | '/upload' | '/records/'
+  fullPaths: '/' | '/queue' | '/upload' | '/records/$id' | '/records/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/queue' | '/upload' | '/records'
-  id: '__root__' | '/' | '/queue' | '/upload' | '/records/'
+  to: '/' | '/queue' | '/upload' | '/records/$id' | '/records'
+  id: '__root__' | '/' | '/queue' | '/upload' | '/records/$id' | '/records/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   QueueRoute: typeof QueueRoute
   UploadRoute: typeof UploadRoute
+  RecordsIdRoute: typeof RecordsIdRoute
   RecordsIndexRoute: typeof RecordsIndexRoute
 }
 
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecordsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/records/$id': {
+      id: '/records/$id'
+      path: '/records/$id'
+      fullPath: '/records/$id'
+      preLoaderRoute: typeof RecordsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   QueueRoute: QueueRoute,
   UploadRoute: UploadRoute,
+  RecordsIdRoute: RecordsIdRoute,
   RecordsIndexRoute: RecordsIndexRoute,
 }
 export const routeTree = rootRouteImport
