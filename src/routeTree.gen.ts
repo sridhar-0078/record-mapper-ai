@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GisRouteImport } from './routes/gis'
 import { Route as QueueRouteImport } from './routes/queue'
 import { Route as UploadRouteImport } from './routes/upload'
 import { Route as RecordsIndexRouteImport } from './routes/records.index'
@@ -18,6 +19,11 @@ import { Route as RecordsIdRouteImport } from './routes/records.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GisRoute = GisRouteImport.update({
+  id: '/gis',
+  path: '/gis',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QueueRoute = QueueRouteImport.update({
@@ -43,6 +49,7 @@ const RecordsIdRoute = RecordsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/gis': typeof GisRoute
   '/queue': typeof QueueRoute
   '/upload': typeof UploadRoute
   '/records/$id': typeof RecordsIdRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/gis': typeof GisRoute
   '/queue': typeof QueueRoute
   '/upload': typeof UploadRoute
   '/records/$id': typeof RecordsIdRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/gis': typeof GisRoute
   '/queue': typeof QueueRoute
   '/upload': typeof UploadRoute
   '/records/$id': typeof RecordsIdRoute
@@ -65,14 +74,22 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/queue' | '/upload' | '/records/$id' | '/records/'
+  fullPaths: '/' | '/gis' | '/queue' | '/upload' | '/records/$id' | '/records/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/queue' | '/upload' | '/records/$id' | '/records'
-  id: '__root__' | '/' | '/queue' | '/upload' | '/records/$id' | '/records/'
+  to: '/' | '/gis' | '/queue' | '/upload' | '/records/$id' | '/records'
+  id:
+    | '__root__'
+    | '/'
+    | '/gis'
+    | '/queue'
+    | '/upload'
+    | '/records/$id'
+    | '/records/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GisRoute: typeof GisRoute
   QueueRoute: typeof QueueRoute
   UploadRoute: typeof UploadRoute
   RecordsIdRoute: typeof RecordsIdRoute
@@ -86,6 +103,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gis': {
+      id: '/gis'
+      path: '/gis'
+      fullPath: '/gis'
+      preLoaderRoute: typeof GisRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/queue': {
@@ -121,6 +145,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GisRoute: GisRoute,
   QueueRoute: QueueRoute,
   UploadRoute: UploadRoute,
   RecordsIdRoute: RecordsIdRoute,
