@@ -104,63 +104,13 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-const NAV = [
-  { to: "/", label: "Dashboard" },
-  { to: "/upload", label: "Upload & digitize" },
-  { to: "/queue", label: "Verification queue" },
-  { to: "/records", label: "Records" },
-  { to: "/gis", label: "GIS parcels" },
-] as const;
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-background font-sans text-foreground">
-        <header className="border-b border-border bg-primary text-primary-foreground">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-accent/60 font-serif text-lg text-accent">
-                भू
-              </div>
-              <div>
-                <p className="font-serif text-lg leading-tight">Bhoomi Setu</p>
-                <p className="text-xs opacity-75">
-                  Intelligent Land Record Digitization &amp; Validation — Officer Portal
-                </p>
-              </div>
-            </div>
-            <div className="text-right text-xs opacity-80">
-              <p className="font-medium">Demo Officer · Nagpur District</p>
-              <p>Role: Revenue Officer (verify, approve, flag)</p>
-            </div>
-          </div>
-          <nav className="border-t border-primary-foreground/15">
-            <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4">
-              {NAV.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  activeOptions={{ exact: item.to === "/" }}
-                  className="whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm opacity-80 transition hover:opacity-100"
-                  activeProps={{ className: "!border-accent !opacity-100 font-medium" }}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-          </nav>
-        </header>
-        <main className="mx-auto max-w-7xl px-6 py-8">
-          <Outlet />
-        </main>
-        <footer className="border-t border-border px-6 py-6 text-center text-xs text-muted-foreground">
-          Prototype using sample fictional parcels. Production deployment requires authorized
-          government parcel and record data. The system flags anomalies for human review and never
-          declares fraud automatically.
-        </footer>
-      </div>
+      <Outlet />
     </QueryClientProvider>
   );
 }
+
