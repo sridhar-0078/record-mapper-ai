@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedGisRouteImport } from './routes/_authenticated/gis'
@@ -17,44 +18,49 @@ import { Route as AuthenticatedUploadRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedRecordsIndexRouteImport } from './routes/_authenticated/records.index'
 import { Route as AuthenticatedRecordsIdRouteImport } from './routes/_authenticated/records.$id'
 
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/_authenticated/dashboard',
+  id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedGisRoute = AuthenticatedGisRouteImport.update({
-  id: '/_authenticated/gis',
+  id: '/gis',
   path: '/gis',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedQueueRoute = AuthenticatedQueueRouteImport.update({
-  id: '/_authenticated/queue',
+  id: '/queue',
   path: '/queue',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedUploadRoute = AuthenticatedUploadRouteImport.update({
-  id: '/_authenticated/upload',
+  id: '/upload',
   path: '/upload',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedRecordsIndexRoute =
   AuthenticatedRecordsIndexRouteImport.update({
-    id: '/_authenticated/records/',
+    id: '/records/',
     path: '/records/',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedRecordsIdRoute = AuthenticatedRecordsIdRouteImport.update({
-  id: '/_authenticated/records/$id',
+  id: '/records/$id',
   path: '/records/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/gis': typeof AuthenticatedGisRoute
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/records/': typeof AuthenticatedRecordsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/gis': typeof AuthenticatedGisRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/gis': typeof AuthenticatedGisRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/auth'
     | '/dashboard'
     | '/gis'
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
     | '/records/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/auth'
     | '/dashboard'
     | '/gis'
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
     | '/records'
   id:
     | '__root__'
+    | '/_authenticated'
     | '/auth'
     | '/_authenticated/dashboard'
     | '/_authenticated/gis'
@@ -113,17 +124,19 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedGisRoute: typeof AuthenticatedGisRoute
-  AuthenticatedQueueRoute: typeof AuthenticatedQueueRoute
-  AuthenticatedUploadRoute: typeof AuthenticatedUploadRoute
-  AuthenticatedRecordsIdRoute: typeof AuthenticatedRecordsIdRoute
-  AuthenticatedRecordsIndexRoute: typeof AuthenticatedRecordsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -136,54 +149,70 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/gis': {
       id: '/_authenticated/gis'
       path: '/gis'
       fullPath: '/gis'
       preLoaderRoute: typeof AuthenticatedGisRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/queue': {
       id: '/_authenticated/queue'
       path: '/queue'
       fullPath: '/queue'
       preLoaderRoute: typeof AuthenticatedQueueRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/upload': {
       id: '/_authenticated/upload'
       path: '/upload'
       fullPath: '/upload'
       preLoaderRoute: typeof AuthenticatedUploadRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/records/': {
       id: '/_authenticated/records/'
       path: '/records'
       fullPath: '/records/'
       preLoaderRoute: typeof AuthenticatedRecordsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/records/$id': {
       id: '/_authenticated/records/$id'
       path: '/records/$id'
       fullPath: '/records/$id'
       preLoaderRoute: typeof AuthenticatedRecordsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
-const rootRouteChildren: RootRouteChildren = {
-  AuthRoute: AuthRoute,
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedGisRoute: typeof AuthenticatedGisRoute
+  AuthenticatedQueueRoute: typeof AuthenticatedQueueRoute
+  AuthenticatedUploadRoute: typeof AuthenticatedUploadRoute
+  AuthenticatedRecordsIdRoute: typeof AuthenticatedRecordsIdRoute
+  AuthenticatedRecordsIndexRoute: typeof AuthenticatedRecordsIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedGisRoute: AuthenticatedGisRoute,
   AuthenticatedQueueRoute: AuthenticatedQueueRoute,
   AuthenticatedUploadRoute: AuthenticatedUploadRoute,
   AuthenticatedRecordsIdRoute: AuthenticatedRecordsIdRoute,
   AuthenticatedRecordsIndexRoute: AuthenticatedRecordsIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+const rootRouteChildren: RootRouteChildren = {
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
