@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, ConfidenceBar, StatusBadge } from "@/components/ui-kit";
 import { getFlags, listRecords, STATUS_LABEL } from "@/lib/land";
 
-export const Route = createFileRoute("/queue")({
+export const Route = createFileRoute("/_authenticated/queue")({
   head: () => ({
     meta: [
       { title: "Human Verification Queue — Bhoomi Setu" },

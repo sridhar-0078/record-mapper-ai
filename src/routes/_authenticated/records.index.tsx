@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, ConfidenceBar, StatusBadge } from "@/components/ui-kit";
 import { listRecords, STATUS_LABEL } from "@/lib/land";
 
-export const Route = createFileRoute("/records/")({
+export const Route = createFileRoute("/_authenticated/records/")({
   head: () => ({
     meta: [
       { title: "Land Record Register — Bhoomi Setu" },

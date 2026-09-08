@@ -257,7 +257,7 @@ export async function saveCorrections(
 
   if (approve) {
     patch["record_status"] = "verified";
-    patch["verified_by"] = "demo.officer";
+    patch["verified_by"] = currentActor();
     patch["verified_at"] = new Date().toISOString();
   }
   patch["updated_at"] = new Date().toISOString();
@@ -272,7 +272,7 @@ export async function saveCorrections(
       event_type: "corrected",
       summary: `Officer corrected ${Object.keys(changes).length} field(s)`,
       changes: changes as never,
-      actor: "demo.officer",
+      actor: currentActor(),
     });
   }
   if (approve) {
@@ -281,7 +281,7 @@ export async function saveCorrections(
       survey_number: record.survey_number,
       event_type: "verified",
       summary: "Record approved by officer",
-      actor: "demo.officer",
+      actor: currentActor(),
     });
     await supabase.from("validation_flag").update({ resolved: true }).eq("record_id", record.id);
   }
@@ -306,7 +306,7 @@ export async function flagRecord(record: LandRecord, message: string) {
     survey_number: record.survey_number,
     event_type: "flagged",
     summary: message,
-    actor: "demo.officer",
+    actor: currentActor(),
   });
   await supabase.from("audit_log").insert({
     entity: "land_record",
@@ -346,4 +346,13 @@ export async function parcelsAtPoint(lat: number, lng: number, radius = 60) {
     inside: boolean;
     distance_m: number;
   }[];
+}
+
+// ---- signed-in officer identity used for history/audit trails ----
+let ACTOR = "officer";
+export function setActor(name: string) {
+  ACTOR = name;
+}
+export function currentActor() {
+  return ACTOR;
 }

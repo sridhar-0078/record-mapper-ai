@@ -12,7 +12,7 @@ import {
   saveCorrections,
 } from "@/lib/land";
 
-export const Route = createFileRoute("/records/$id")({
+export const Route = createFileRoute("/_authenticated/records/$id")({
   head: () => ({
     meta: [
       { title: "Record Verification — Bhoomi Setu" },

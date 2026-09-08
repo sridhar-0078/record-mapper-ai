@@ -1,141 +1,123 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { Card, Stat, StatusBadge } from "@/components/ui-kit";
-import { getAuditLog, getDocuments, getFlags, listRecords, STATUS_LABEL } from "@/lib/land";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Digitization Dashboard — Bhoomi Setu" },
+      { title: "Bhoomi Setu — AI Land Record Digitization Portal" },
       {
         name: "description",
         content:
-          "Live view of documents processed, extraction accuracy, pending verifications and flagged land records.",
+          "AI-assisted digitization, validation, confidence scoring and GIS linking of legacy land records for revenue officers.",
       },
-      { property: "og:title", content: "Digitization Dashboard — Bhoomi Setu" },
+      { property: "og:title", content: "Bhoomi Setu — AI Land Record Digitization Portal" },
       {
         property: "og:description",
-        content: "Track digitization progress, verification backlog and anomalies by district.",
+        content:
+          "Digitize historical land records, verify AI extractions and map cadastral parcels in one officer portal.",
       },
     ],
   }),
-  component: Dashboard,
+  component: Landing,
 });
 
-function Dashboard() {
-  const records = useQuery({ queryKey: ["records"], queryFn: listRecords });
-  const docs = useQuery({ queryKey: ["documents"], queryFn: getDocuments });
-  const flags = useQuery({ queryKey: ["flags"], queryFn: () => getFlags() });
-  const audit = useQuery({ queryKey: ["audit"], queryFn: getAuditLog });
+const FEATURES = [
+  {
+    title: "Document digitization",
+    body: "Scanned records are enhanced, deskewed and read in Hindi, Marathi and English before extraction.",
+  },
+  {
+    title: "AI field extraction",
+    body: "Owner, survey number, khasra, area, village, tehsil, mutation and registration fields, each with a confidence score.",
+  },
+  {
+    title: "Validation engine",
+    body: "Duplicate survey numbers, area mismatches and conflicting owners are flagged for officer review — never auto-declared fraud.",
+  },
+  {
+    title: "Human verification",
+    body: "Low-confidence fields route to a queue where officers compare AI output against the source and correct it.",
+  },
+  {
+    title: "Immutable history",
+    body: "Every correction, approval and mutation is written to a per-survey-number timeline and audit log.",
+  },
+  {
+    title: "GIS parcel linking",
+    body: "Each record links to a cadastral polygon with spatial overlap detection and location-based lookup.",
+  },
+];
 
-  const list = records.data ?? [];
-  const verified = list.filter((r) => r.record_status === "verified").length;
-  const pending = list.filter((r) => r.record_status !== "verified").length;
-  const avgConf = list.length
-    ? Math.round((list.reduce((s, r) => s + Number(r.overall_confidence), 0) / list.length) * 100)
-    : 0;
-  const openFlags = (flags.data ?? []).filter((f) => !f.resolved).length;
-
-  const byVillage = list.reduce<Record<string, { total: number; done: number }>>((acc, r) => {
-    const key = r.village ?? "Unassigned";
-    acc[key] ??= { total: 0, done: 0 };
-    acc[key].total += 1;
-    if (r.record_status === "verified") acc[key].done += 1;
-    return acc;
-  }, {});
-
+function Landing() {
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="font-serif text-2xl">Digitization dashboard</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          End-to-end status of the historical land record digitization programme.
+    <div className="min-h-screen bg-background font-sans text-foreground">
+      <header className="border-b border-border bg-primary text-primary-foreground">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-accent/60 font-serif text-lg text-accent">
+              भू
+            </div>
+            <div>
+              <p className="font-serif text-lg leading-tight">Bhoomi Setu</p>
+              <p className="text-xs opacity-75">Land Record Digitization &amp; Validation</p>
+            </div>
+          </div>
+          <Link
+            to="/auth"
+            search={{ redirect: undefined }}
+            className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition hover:opacity-90"
+          >
+            Officer sign in
+          </Link>
+        </div>
+      </header>
+
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+          Prototype · Sample data
         </p>
-      </div>
+        <h1 className="mt-3 max-w-3xl font-serif text-4xl leading-tight sm:text-5xl">
+          Turn historical land documents into verified, searchable, map-linked records.
+        </h1>
+        <p className="mt-5 max-w-2xl text-muted-foreground">
+          Bhoomi Setu reads legacy registers and mutation papers, extracts structured fields with
+          per-field confidence, checks them for conflicts, and links each verified record to its
+          cadastral parcel — with an officer in the loop at every step.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            to="/auth"
+            search={{ redirect: undefined }}
+            className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+          >
+            Sign in to the portal
+          </Link>
+          <Link
+            to="/auth"
+            search={{ redirect: "/dashboard" }}
+            className="rounded-md border border-border px-5 py-2.5 text-sm font-medium transition hover:bg-secondary"
+          >
+            Create an officer account
+          </Link>
+        </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        <Stat label="Documents processed" value={docs.data?.length ?? 0} hint="Scans through the pipeline" />
-        <Stat label="Structured records" value={list.length} />
-        <Stat label="Approved records" value={verified} hint={`${pending} awaiting officer action`} />
-        <Stat label="Avg. extraction confidence" value={`${avgConf}%`} />
-        <Stat label="Open anomalies" value={openFlags} hint="Awaiting human review" />
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card title="Digitization progress by village" subtitle="Approved vs. total structured records">
-          <ul className="space-y-3">
-            {Object.entries(byVillage).map(([village, v]) => {
-              const pct = Math.round((v.done / v.total) * 100);
-              return (
-                <li key={village}>
-                  <div className="flex justify-between text-sm">
-                    <span>{village}</span>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {v.done}/{v.total} · {pct}%
-                    </span>
-                  </div>
-                  <div className="mt-1 h-2 overflow-hidden rounded-full bg-muted">
-                    <div className="h-full bg-primary" style={{ width: `${pct}%` }} />
-                  </div>
-                </li>
-              );
-            })}
-            {!Object.keys(byVillage).length && (
-              <p className="text-sm text-muted-foreground">No records yet.</p>
-            )}
-          </ul>
-        </Card>
-
-        <Card
-          title="Records needing attention"
-          subtitle="Low confidence, duplicates and conflicts — for review, not judgement"
-          action={
-            <Link to="/queue" className="text-sm font-medium text-primary underline-offset-4 hover:underline">
-              Open queue
-            </Link>
-          }
-        >
-          <ul className="divide-y divide-border">
-            {list
-              .filter((r) => r.record_status !== "verified")
-              .slice(0, 6)
-              .map((r) => (
-                <li key={r.id} className="flex items-center justify-between gap-3 py-2.5">
-                  <div>
-                    <Link
-                      to="/records/$id"
-                      params={{ id: r.id }}
-                      className="font-mono text-sm text-primary underline-offset-4 hover:underline"
-                    >
-                      Survey {r.survey_number}
-                    </Link>
-                    <p className="text-xs text-muted-foreground">
-                      {r.owner_name} · {r.village}
-                    </p>
-                  </div>
-                  <StatusBadge status={r.record_status} label={STATUS_LABEL[r.record_status] ?? r.record_status} />
-                </li>
-              ))}
-            {!pending && <p className="text-sm text-muted-foreground">Nothing pending. Queue is clear.</p>}
-          </ul>
-        </Card>
-      </div>
-
-      <Card title="Audit trail" subtitle="Immutable log of every action on the register">
-        <ul className="space-y-2 text-sm">
-          {(audit.data ?? []).slice(0, 12).map((a) => (
-            <li key={a.id} className="flex flex-wrap gap-x-3 border-b border-border/60 pb-2">
-              <span className="font-mono text-xs text-muted-foreground">
-                {new Date(a.created_at).toLocaleString()}
-              </span>
-              <span className="font-medium">{a.action}</span>
-              <span className="text-muted-foreground">
-                {a.entity} · by {a.actor}
-              </span>
-            </li>
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map((f) => (
+            <div
+              key={f.title}
+              className="rounded-lg border border-border bg-card p-5 transition hover:-translate-y-0.5 hover:shadow-sm"
+            >
+              <h2 className="font-serif text-lg">{f.title}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
+            </div>
           ))}
-        </ul>
-      </Card>
+        </div>
+      </section>
+
+      <footer className="border-t border-border px-6 py-8 text-center text-xs text-muted-foreground">
+        Prototype using sample fictional parcels and records. Production deployment requires
+        authorized government data. Location-based parcel identification is indicative only and is
+        never proof of ownership.
+      </footer>
     </div>
   );
 }
