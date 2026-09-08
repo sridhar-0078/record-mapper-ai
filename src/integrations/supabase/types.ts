@@ -629,6 +629,18 @@ export type Database = {
           village: string
         }[]
       }
+      parcels_geojson: {
+        Args: never
+        Returns: {
+          area_acres: number
+          geojson: string
+          id: string
+          owner_name: string
+          record_status: string
+          survey_number: string
+          village: string
+        }[]
+      }
       populate_geometry_columns:
         | { Args: { tbl_oid: unknown; use_typmod?: boolean }; Returns: number }
         | { Args: { use_typmod?: boolean }; Returns: string }

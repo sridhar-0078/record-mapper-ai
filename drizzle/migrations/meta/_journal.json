@@ -8,6 +8,13 @@
       "when": 1788876842013,
       "tag": "0000_land_records_core",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788876983402,
+      "tag": "0001_parcels_geojson_fn",
+      "breakpoints": true
     }
   ]
 }
