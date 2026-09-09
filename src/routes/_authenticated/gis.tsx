@@ -8,13 +8,13 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated/gis")({
   head: () => ({
     meta: [
-      { title: "GIS Cadastral Parcels — Bhoomi Setu" },
+      { title: "GIS Cadastral Parcels — LAND WALLET" },
       {
         name: "description",
         content:
           "Cadastral parcel polygons linked to survey numbers, with spatial conflict detection and point lookup.",
       },
-      { property: "og:title", content: "GIS Cadastral Parcels — Bhoomi Setu" },
+      { property: "og:title", content: "GIS Cadastral Parcels — LAND WALLET" },
       {
         property: "og:description",
         content: "Map view of sample cadastral parcels, overlap detection and location-based parcel lookup.",

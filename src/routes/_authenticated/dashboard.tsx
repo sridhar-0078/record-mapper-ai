@@ -6,13 +6,13 @@ import { getAuditLog, getDocuments, getFlags, listRecords, STATUS_LABEL } from "
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "Digitization Dashboard — Bhoomi Setu" },
+      { title: "Digitization Dashboard — LAND WALLET" },
       {
         name: "description",
         content:
           "Live view of documents processed, extraction accuracy, pending verifications and flagged land records.",
       },
-      { property: "og:title", content: "Digitization Dashboard — Bhoomi Setu" },
+      { property: "og:title", content: "Digitization Dashboard — LAND WALLET" },
       {
         property: "og:description",
         content: "Track digitization progress, verification backlog and anomalies by district.",

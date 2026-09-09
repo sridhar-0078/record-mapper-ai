@@ -3,13 +3,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bhoomi Setu — AI Land Record Digitization Portal" },
+      { title: "LAND WALLET — AI Land Record Digitization Portal" },
       {
         name: "description",
         content:
           "AI-assisted digitization, validation, confidence scoring and GIS linking of legacy land records for revenue officers.",
       },
-      { property: "og:title", content: "Bhoomi Setu — AI Land Record Digitization Portal" },
+      { property: "og:title", content: "LAND WALLET — AI Land Record Digitization Portal" },
       {
         property: "og:description",
         content:
@@ -54,10 +54,10 @@ function Landing() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-accent/60 font-serif text-lg text-accent">
-              भू
+              LW
             </div>
             <div>
-              <p className="font-serif text-lg leading-tight">Bhoomi Setu</p>
+              <p className="font-serif text-lg leading-tight">LAND WALLET</p>
               <p className="text-xs opacity-75">Land Record Digitization &amp; Validation</p>
             </div>
           </div>
@@ -79,7 +79,7 @@ function Landing() {
           Turn historical land documents into verified, searchable, map-linked records.
         </h1>
         <p className="mt-5 max-w-2xl text-muted-foreground">
-          Bhoomi Setu reads legacy registers and mutation papers, extracts structured fields with
+          LAND WALLET reads legacy registers and mutation papers, extracts structured fields with
           per-field confidence, checks them for conflicts, and links each verified record to its
           cadastral parcel — with an officer in the loop at every step.
         </p>

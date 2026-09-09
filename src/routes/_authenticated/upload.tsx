@@ -6,13 +6,13 @@ import { runDigitizationPipeline, type PipelineResult } from "@/lib/land";
 export const Route = createFileRoute("/_authenticated/upload")({
   head: () => ({
     meta: [
-      { title: "Upload & Digitize Documents — Bhoomi Setu" },
+      { title: "Upload & Digitize Documents — LAND WALLET" },
       {
         name: "description",
         content:
           "Upload scanned legacy land documents and run image enhancement, OCR and AI field extraction.",
       },
-      { property: "og:title", content: "Upload & Digitize Documents — Bhoomi Setu" },
+      { property: "og:title", content: "Upload & Digitize Documents — LAND WALLET" },
       {
         property: "og:description",
         content: "Officer interface for scanning, enhancing and extracting fields from land documents.",

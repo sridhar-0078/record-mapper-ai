@@ -64,7 +64,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Bhoomi Setu — Land Record Digitization Portal" },
+      { title: "LAND WALLET — Land Record Digitization Portal" },
       {
         name: "description",
         content:
