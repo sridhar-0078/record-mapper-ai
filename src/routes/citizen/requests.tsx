@@ -10,12 +10,13 @@ import {
   type CitizenRequest,
 } from "@/lib/citizen";
 
-type Search = { survey?: string };
+type Search = { survey?: string | undefined };
 
 export const Route = createFileRoute("/citizen/requests")({
   validateSearch: (search: Record<string, unknown>): Search => ({
     survey: typeof search["survey"] === "string" ? search["survey"] : undefined,
   }),
+
   head: () => ({
     meta: [
       { title: "My requests — LAND WALLET" },
