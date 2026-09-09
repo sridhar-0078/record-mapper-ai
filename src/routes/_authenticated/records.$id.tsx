@@ -15,13 +15,13 @@ import {
 export const Route = createFileRoute("/_authenticated/records/$id")({
   head: () => ({
     meta: [
-      { title: "Record Verification — Bhoomi Setu" },
+      { title: "Record Verification — LAND WALLET" },
       {
         name: "description",
         content:
           "Compare AI-extracted fields against the source scan, correct values, approve or flag the record.",
       },
-      { property: "og:title", content: "Record Verification — Bhoomi Setu" },
+      { property: "og:title", content: "Record Verification — LAND WALLET" },
       {
         property: "og:description",
         content: "Per-field confidence scores, anomaly flags and the full change history of a land record.",

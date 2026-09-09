@@ -49,10 +49,10 @@ function PortalLayout() {
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-accent/60 font-serif text-lg text-accent">
-              भू
+              LW
             </div>
             <div>
-              <p className="font-serif text-lg leading-tight">Bhoomi Setu</p>
+              <p className="font-serif text-lg leading-tight">LAND WALLET</p>
               <p className="text-xs opacity-75">
                 Intelligent Land Record Digitization &amp; Validation — Officer Portal
               </p>

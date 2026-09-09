@@ -10,12 +10,12 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Officer sign in — Bhoomi Setu" },
+      { title: "Officer sign in — LAND WALLET" },
       {
         name: "description",
         content: "Secure sign in for revenue officers to the land record digitization portal.",
       },
-      { property: "og:title", content: "Officer sign in — Bhoomi Setu" },
+      { property: "og:title", content: "Officer sign in — LAND WALLET" },
       { property: "og:description", content: "Sign in to digitize, verify and approve land records." },
     ],
   }),
@@ -96,10 +96,10 @@ function AuthPage() {
       <div className="w-full max-w-md rounded-lg border border-border bg-card p-8 shadow-sm">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-primary font-serif text-lg text-primary-foreground">
-            भू
+            LW
           </div>
           <div>
-            <p className="font-serif text-xl">Bhoomi Setu</p>
+            <p className="font-serif text-xl">LAND WALLET</p>
             <p className="text-xs text-muted-foreground">Officer portal · restricted access</p>
           </div>
         </div>

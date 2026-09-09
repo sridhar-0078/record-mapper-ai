@@ -7,12 +7,12 @@ import { listRecords, STATUS_LABEL } from "@/lib/land";
 export const Route = createFileRoute("/_authenticated/records/")({
   head: () => ({
     meta: [
-      { title: "Land Record Register — Bhoomi Setu" },
+      { title: "Land Record Register — LAND WALLET" },
       {
         name: "description",
         content: "Searchable register of digitized land records with owner, survey number and status.",
       },
-      { property: "og:title", content: "Land Record Register — Bhoomi Setu" },
+      { property: "og:title", content: "Land Record Register — LAND WALLET" },
       {
         property: "og:description",
         content: "Search structured land records by owner, survey number, khasra number or village.",

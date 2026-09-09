@@ -6,13 +6,13 @@ import { getFlags, listRecords, STATUS_LABEL } from "@/lib/land";
 export const Route = createFileRoute("/_authenticated/queue")({
   head: () => ({
     meta: [
-      { title: "Human Verification Queue — Bhoomi Setu" },
+      { title: "Human Verification Queue — LAND WALLET" },
       {
         name: "description",
         content:
           "Low-confidence and conflicting land records routed to revenue officers for manual verification.",
       },
-      { property: "og:title", content: "Human Verification Queue — Bhoomi Setu" },
+      { property: "og:title", content: "Human Verification Queue — LAND WALLET" },
       {
         property: "og:description",
         content: "Review AI-extracted land records flagged for duplicates, area mismatches or low confidence.",
