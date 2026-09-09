@@ -17,6 +17,9 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedGisRouteImport } from './routes/_authenticated/gis'
 import { Route as AuthenticatedQueueRouteImport } from './routes/_authenticated/queue'
 import { Route as AuthenticatedUploadRouteImport } from './routes/_authenticated/upload'
+import { Route as CitizenIndexRouteImport } from './routes/citizen/index'
+import { Route as CitizenRequestsRouteImport } from './routes/citizen/requests'
+import { Route as CitizenSearchRouteImport } from './routes/citizen/search'
 import { Route as AuthenticatedRecordsIndexRouteImport } from './routes/_authenticated/records.index'
 import { Route as AuthenticatedRecordsIdRouteImport } from './routes/_authenticated/records.$id'
 
@@ -59,6 +62,21 @@ const AuthenticatedUploadRoute = AuthenticatedUploadRouteImport.update({
   path: '/upload',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const CitizenIndexRoute = CitizenIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CitizenRouteRoute,
+} as any)
+const CitizenRequestsRoute = CitizenRequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
+  getParentRoute: () => CitizenRouteRoute,
+} as any)
+const CitizenSearchRoute = CitizenSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => CitizenRouteRoute,
+} as any)
 const AuthenticatedRecordsIndexRoute =
   AuthenticatedRecordsIndexRouteImport.update({
     id: '/records/',
@@ -73,23 +91,28 @@ const AuthenticatedRecordsIdRoute = AuthenticatedRecordsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/citizen': typeof CitizenRouteRoute
+  '/citizen': typeof CitizenRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/gis': typeof AuthenticatedGisRoute
   '/queue': typeof AuthenticatedQueueRoute
   '/upload': typeof AuthenticatedUploadRoute
+  '/citizen/requests': typeof CitizenRequestsRoute
+  '/citizen/search': typeof CitizenSearchRoute
+  '/citizen/': typeof CitizenIndexRoute
   '/records/$id': typeof AuthenticatedRecordsIdRoute
   '/records/': typeof AuthenticatedRecordsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/citizen': typeof CitizenRouteRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/gis': typeof AuthenticatedGisRoute
   '/queue': typeof AuthenticatedQueueRoute
   '/upload': typeof AuthenticatedUploadRoute
+  '/citizen/requests': typeof CitizenRequestsRoute
+  '/citizen/search': typeof CitizenSearchRoute
+  '/citizen': typeof CitizenIndexRoute
   '/records/$id': typeof AuthenticatedRecordsIdRoute
   '/records': typeof AuthenticatedRecordsIndexRoute
 }
@@ -97,12 +120,15 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/citizen': typeof CitizenRouteRoute
+  '/citizen': typeof CitizenRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/gis': typeof AuthenticatedGisRoute
   '/_authenticated/queue': typeof AuthenticatedQueueRoute
   '/_authenticated/upload': typeof AuthenticatedUploadRoute
+  '/citizen/requests': typeof CitizenRequestsRoute
+  '/citizen/search': typeof CitizenSearchRoute
+  '/citizen/': typeof CitizenIndexRoute
   '/_authenticated/records/$id': typeof AuthenticatedRecordsIdRoute
   '/_authenticated/records/': typeof AuthenticatedRecordsIndexRoute
 }
@@ -116,17 +142,22 @@ export interface FileRouteTypes {
     | '/gis'
     | '/queue'
     | '/upload'
+    | '/citizen/requests'
+    | '/citizen/search'
+    | '/citizen/'
     | '/records/$id'
     | '/records/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/citizen'
     | '/auth'
     | '/dashboard'
     | '/gis'
     | '/queue'
     | '/upload'
+    | '/citizen/requests'
+    | '/citizen/search'
+    | '/citizen'
     | '/records/$id'
     | '/records'
   id:
@@ -139,6 +170,9 @@ export interface FileRouteTypes {
     | '/_authenticated/gis'
     | '/_authenticated/queue'
     | '/_authenticated/upload'
+    | '/citizen/requests'
+    | '/citizen/search'
+    | '/citizen/'
     | '/_authenticated/records/$id'
     | '/_authenticated/records/'
   fileRoutesById: FileRoutesById
@@ -146,7 +180,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  CitizenRouteRoute: typeof CitizenRouteRoute
+  CitizenRouteRoute: typeof CitizenRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
 }
 
@@ -208,6 +242,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUploadRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/citizen/': {
+      id: '/citizen/'
+      path: '/'
+      fullPath: '/citizen/'
+      preLoaderRoute: typeof CitizenIndexRouteImport
+      parentRoute: typeof CitizenRouteRoute
+    }
+    '/citizen/requests': {
+      id: '/citizen/requests'
+      path: '/requests'
+      fullPath: '/citizen/requests'
+      preLoaderRoute: typeof CitizenRequestsRouteImport
+      parentRoute: typeof CitizenRouteRoute
+    }
+    '/citizen/search': {
+      id: '/citizen/search'
+      path: '/search'
+      fullPath: '/citizen/search'
+      preLoaderRoute: typeof CitizenSearchRouteImport
+      parentRoute: typeof CitizenRouteRoute
+    }
     '/_authenticated/records/': {
       id: '/_authenticated/records/'
       path: '/records'
@@ -246,10 +301,26 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CitizenRouteRouteChildren {
+  CitizenRequestsRoute: typeof CitizenRequestsRoute
+  CitizenSearchRoute: typeof CitizenSearchRoute
+  CitizenIndexRoute: typeof CitizenIndexRoute
+}
+
+const CitizenRouteRouteChildren: CitizenRouteRouteChildren = {
+  CitizenRequestsRoute: CitizenRequestsRoute,
+  CitizenSearchRoute: CitizenSearchRoute,
+  CitizenIndexRoute: CitizenIndexRoute,
+}
+
+const CitizenRouteRouteWithChildren = CitizenRouteRoute._addFileChildren(
+  CitizenRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  CitizenRouteRoute: CitizenRouteRoute,
+  CitizenRouteRoute: CitizenRouteRouteWithChildren,
   AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
