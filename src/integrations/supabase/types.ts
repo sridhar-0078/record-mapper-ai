@@ -44,6 +44,48 @@ export type Database = {
         }
         Relationships: []
       }
+      citizen_request: {
+        Row: {
+          citizen_name: string
+          contact: string | null
+          created_at: string
+          id: string
+          message: string
+          officer_note: string | null
+          request_type: string
+          status: string
+          survey_number: string | null
+          ticket: string
+          updated_at: string
+        }
+        Insert: {
+          citizen_name: string
+          contact?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          officer_note?: string | null
+          request_type?: string
+          status?: string
+          survey_number?: string | null
+          ticket?: string
+          updated_at?: string
+        }
+        Update: {
+          citizen_name?: string
+          contact?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          officer_note?: string | null
+          request_type?: string
+          status?: string
+          survey_number?: string | null
+          ticket?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       correction_feedback: {
         Row: {
           ai_confidence: number | null
@@ -522,6 +564,56 @@ export type Database = {
             }
             Returns: string
           }
+      citizen_parcels_at_point: {
+        Args: { lat: number; lng: number; radius_m?: number }
+        Returns: {
+          area_acres: number
+          distance_m: number
+          district: string
+          inside: boolean
+          land_type: string
+          record_status: string
+          survey_number: string
+          tehsil: string
+          village: string
+        }[]
+      }
+      citizen_search_records: {
+        Args: { q: string }
+        Returns: {
+          area_acres: number
+          district: string
+          khasra_khata_number: string
+          land_type: string
+          record_status: string
+          survey_number: string
+          tehsil: string
+          village: string
+        }[]
+      }
+      citizen_submit_request: {
+        Args: {
+          p_contact: string
+          p_message: string
+          p_name: string
+          p_survey?: string
+          p_type?: string
+        }
+        Returns: string
+      }
+      citizen_track_request: {
+        Args: { p_ticket: string }
+        Returns: {
+          created_at: string
+          message: string
+          officer_note: string
+          request_type: string
+          status: string
+          survey_number: string
+          ticket: string
+          updated_at: string
+        }[]
+      }
       disablelongtransactions: { Args: never; Returns: string }
       dropgeometrycolumn:
         | {
