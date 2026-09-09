@@ -98,7 +98,14 @@ function Landing() {
           >
             Create an officer account
           </Link>
+          <Link
+            to="/citizen"
+            className="rounded-md border border-accent/60 px-5 py-2.5 text-sm font-medium text-accent transition hover:bg-accent/10"
+          >
+            Open the citizen app
+          </Link>
         </div>
+
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f) => (
